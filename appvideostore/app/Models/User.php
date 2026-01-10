@@ -18,9 +18,23 @@ class User extends Authenticatable
         'password',
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password'          => 'hashed',  
+    ];
+
     public function watchlists()
     {
         return $this->hasMany(Watchlist::class);
     }
    
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

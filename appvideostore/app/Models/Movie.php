@@ -14,6 +14,13 @@ class Movie extends Model
         'tmdb_id'
     ];
 
+    protected $casts = [
+        'release_date' => 'date:Y-m-d',
+        'runtime' => 'integer',
+        'average_vote' => 'float',
+        'vote_count' => 'integer'
+    ];
+
     public function watchlists()
     {
         return $this->hasMany(Watchlist::class);
@@ -24,6 +31,9 @@ class Movie extends Model
         return $this->watchlists()->count();
     }
 
-
+    public function reviews()
+{
+    return $this->hasMany(Review::class);
+}
 
 }

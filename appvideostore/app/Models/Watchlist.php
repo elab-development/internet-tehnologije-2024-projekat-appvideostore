@@ -17,6 +17,12 @@ class Watchlist extends Model
         'added_at'
     ];
 
+    protected $casts = [
+        'status' => 'string',
+        'rating' => 'integer',
+        'added_at' => 'datetime'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
