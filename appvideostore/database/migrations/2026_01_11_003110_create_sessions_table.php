@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use SebastianBergmann\Type\FalseType;
 
 return new class extends Migration
 {
@@ -12,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('watchlist', function (Blueprint $table) {
-            $table->string('opis')->nullable()->change();
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -22,8 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('watchlist', function (Blueprint $table) {
-            $table->string('opis')->nullable(false)->change();
-        });
+        Schema::dropIfExists('sessions');
     }
 };
