@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('watchlist', function (Blueprint $table) {
-            $table->string('opis')->nullable()->change();
+            $table->string('status')->nullable()->change();
         });
     }
 
@@ -23,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('watchlist', function (Blueprint $table) {
-            $table->string('opis')->nullable(false)->change();
+            $table->string('status')->nullable(false)->change();
         });
     }
 };
