@@ -10,6 +10,28 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 
+Route::post('/register', function (Request $request) {
+    $request->validate([
+        'name'     => 'required|string|max:255',
+        'email'    => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8|confirmed',
+    ]);
+
+    $user = User::create([
+        'name'     => $request->name,
+        'email'    => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+
+    $token = $user->createToken('api-token')->plainTextToken;
+
+    return response()->json([
+        'token' => $token,
+        'user'  => $user
+    ], 201);
+});
+
+
 Route::post('/login', function (Request $request) {
     $request->validate([
         'email' => 'required|email',
@@ -19,7 +41,7 @@ Route::post('/login', function (Request $request) {
     $user = User::where('email', $request->email)->first();
 
     if (! $user || ! Hash::check($request->password, $user->password)) {
-        return response()->json(['message' => 'Neispravni kredencijali'], 401);
+        return response()->json(['message' => 'Incorrect credentials'], 401);
     }
 
     $token = $user->createToken('api-token')->plainTextToken;

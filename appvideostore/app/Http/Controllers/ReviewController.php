@@ -14,9 +14,7 @@ class ReviewController extends Controller
 {
     use AuthorizesRequests;
 
-    /**
-     * Sve recenzije za određeni film
-     */
+    
     public function index(Movie $movie): JsonResponse
     {
         $reviews = $movie->reviews()
@@ -27,9 +25,7 @@ class ReviewController extends Controller
         return response()->json($reviews);
     }
 
-    /**
-     * Dodavanje nove recenzije za film
-     */
+   
     public function store(Request $request, Movie $movie): JsonResponse
     {
         $validated = $request->validate([
@@ -40,7 +36,7 @@ class ReviewController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Provera da li korisnik već ima recenziju za ovaj film
+        
         if ($user->reviews()->where('movie_id', $movie->id)->exists()) {
             return response()->json([
                 'message' => 'You have already left a review for this movie'
@@ -56,9 +52,7 @@ class ReviewController extends Controller
         return response()->json($review->load('user'), 201);
     }
 
-    /**
-     * Izmena sopstvene recenzije
-     */
+   
     public function update(Request $request, Review $review): JsonResponse
     {
         $this->authorize('update', $review);
@@ -73,9 +67,7 @@ class ReviewController extends Controller
         return response()->json($review->fresh()->load('user'));
     }
 
-    /**
-     * Brisanje sopstvene recenzije
-     */
+    
     public function destroy(Review $review): JsonResponse
     {
         $this->authorize('delete', $review);

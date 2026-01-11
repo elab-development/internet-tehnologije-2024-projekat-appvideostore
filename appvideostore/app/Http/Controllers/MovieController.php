@@ -12,9 +12,6 @@ class MovieController extends Controller
 {
     use AuthorizesRequests;
 
-    /**
-     * Prikaz svih filmova (može biti i paginirano)
-     */
     public function index(): JsonResponse
     {
         $movies = Movie::latest()->paginate(20);
@@ -22,9 +19,7 @@ class MovieController extends Controller
         return response()->json($movies);
     }
 
-    /**
-     * Prikaz pojedinog filma sa recenzijama
-     */
+    
     public function show(Movie $movie): JsonResponse
     {
         $movie->load([
@@ -34,10 +29,7 @@ class MovieController extends Controller
         return response()->json($movie);
     }
 
-    /**
-     * Kreiranje novog filma
-     * (obično ovo rade samo admini – zato autorizacija)
-     */
+    
     public function store(Request $request): JsonResponse
     {
         $this->authorize('create', Movie::class);
